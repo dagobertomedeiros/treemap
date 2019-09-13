@@ -308,56 +308,74 @@ function generatePopUp(element){
 		}
 }currentPlace
 
-let arrayTreeMap = [
-	['Localidade', 'Parent', 'Size', 'Color'],
-	['ba', null, 0, 0]];
-let tam = 0;
-let numColor = 1;
+let arrayTreeMap = [];
+arrayTreeMap.push(['Localidade', 'Parent', 'Size', 'Color']);
+arrayTreeMap.push(['ba', null, 0, 0]);
+let tam = 4;
+let numColor = 4;
 
 function gerarArrayTreeMap(tam, numColor){
 	//adicionando as mesorregioes
+	let mesoArray = [];
 	for(let iCont in jsonEstadoGeral.MESORREGIOES){
-		let dinArray = [];
-		dinArray.push(jsonEstadoGeral.MESORREGIOES[iCont].NOME_MESORREGIAO);
-		dinArray.push('ba');		
-		dinArray.push(jsonEstadoGeral.MICRORREGIOES[iCont].VALORES[tam]);
-		dinArray.push(jsonEstadoGeral.MICRORREGIOES[iCont].VALORES[numColor]);
-		arrayTreeMap.push(dinArray);
+		mesoArray.push(jsonEstadoGeral.MESORREGIOES[iCont].NOME_MESORREGIAO, 'ba',
+						jsonEstadoGeral.MICRORREGIOES[iCont].VALORES[tam],
+						jsonEstadoGeral.MICRORREGIOES[iCont].VALORES[numColor]);
+		
+		arrayTreeMap.push(mesoArray);
+		mesoArray = [];
+						//dinArray.push('ba');		
+		//dinArray.push(jsonEstadoGeral.MICRORREGIOES[iCont].VALORES[tam]);
+		//dinArray.push(jsonEstadoGeral.MICRORREGIOES[iCont].VALORES[numColor]);
+		//arrayTreeMap.push(dinArray);
 	}
 	//adicionando as microrregioes
+	let microArray = [];
 	for(let iCont in jsonEstadoGeral.MICRORREGIOES){
-		let dinArray = [];
-		dinArray.push(jsonEstadoGeral.MICRORREGIOES[iCont].NOME_MICRORREGIAO);
+		//dinArray.push(jsonEstadoGeral.MICRORREGIOES[iCont].NOME_MICRORREGIAO);
 		for(let i in jsonEstadoGeral.MESORREGIOES){
 			if(jsonEstadoGeral.MICRORREGIOES[iCont].ID_MESO == jsonEstadoGeral.MESORREGIOES[i].ID){
-				dinArray.push(jsonEstadoGeral.MESORREGIOES[i].NOME_MESORREGIAO);
+				microArray.push(jsonEstadoGeral.MICRORREGIOES[iCont].NOME_MICRORREGIAO, 
+								jsonEstadoGeral.MESORREGIOES[i].NOME_MESORREGIAO, 
+								jsonEstadoGeral.MICRORREGIOES[iCont].VALORES[tam],
+								jsonEstadoGeral.MICRORREGIOES[iCont].VALORES[numColor]);
+				arrayTreeMap.push(microArray);
+				microArray = [];
 				break;
 			}
 		}		
-		dinArray.push(jsonEstadoGeral.MICRORREGIOES[iCont].VALORES[tam]);
-		dinArray.push(jsonEstadoGeral.MICRORREGIOES[iCont].VALORES[numColor]);
-		arrayTreeMap.push(dinArray);
+		//dinArray.push(jsonEstadoGeral.MICRORREGIOES[iCont].VALORES[tam]);
+		//dinArray.push(jsonEstadoGeral.MICRORREGIOES[iCont].VALORES[numColor]);
+		//arrayTreeMap.push(dinArray);
 	}
 	//adicionando os municipios ao arrayTreeMap
+	/*let munArray = [];
 	for(let iCont in jsonEstadoGeral.MUNICIPIOS){
-		let dinArray = [];
-		dinArray.push(jsonEstadoGeral.MUNICIPIOS[iCont].NOME_MUNICIPIO);
+		//dinArray.push(jsonEstadoGeral.MUNICIPIOS[iCont].NOME_MUNICIPIO);
 		for(let i in jsonEstadoGeral.MICRORREGIOES){
 			if(jsonEstadoGeral.MUNICIPIOS[iCont].ID_MICRO == jsonEstadoGeral.MICRORREGIOES[i].ID){
-				dinArray.push(jsonEstadoGeral.MICRORREGIOES[i].NOME_MICRORREGIAO);
+				if(arrayTreeMap.indexOf(jsonEstadoGeral.MUNICIPIOS[iCont].ID) === 1 ){//corrigir aqui<<<<<
+					munArray.push(jsonEstadoGeral.MUNICIPIOS[iCont].NOME_MUNICIPIO, 
+						jsonEstadoGeral.MICRORREGIOES[i].NOME_MICRORREGIAO,
+						jsonEstadoGeral.MUNICIPIOS[iCont].VALORES[tam],
+						jsonEstadoGeral.MUNICIPIOS[iCont].VALORES[numColor]);
+					arrayTreeMap.push(munArray);
+					munArray = [];
+				}
 				break;
 			}
-		}		
-		dinArray.push(jsonEstadoGeral.MUNICIPIOS[iCont].VALORES[tam]);
-		dinArray.push(jsonEstadoGeral.MUNICIPIOS[iCont].VALORES[numColor]);
-		arrayTreeMap.push(dinArray);
-	}
+			break;
+		}*/		
+		//dinArray.push(jsonEstadoGeral.MUNICIPIOS[iCont].VALORES[tam]);
+		//dinArray.push(jsonEstadoGeral.MUNICIPIOS[iCont].VALORES[numColor]);
+		//arrayTreeMap.push(dinArray);
+	//}
 	
 }	
 gerarArrayTreeMap(tam, numColor);
 console.log(arrayTreeMap);
 
-google.charts.load('current', {packages:['treemap']});
+google.charts.load('current', {'packages':['treemap']});
 	  google.charts.setOnLoadCallback(drawChart);
 	  function drawChart() {
 		var data = google.visualization.arrayToDataTable(arrayTreeMap);
