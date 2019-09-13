@@ -344,7 +344,6 @@ function gerarArrayTreeMap(tam, numColor){
 	//adicionando os municipios ao arrayTreeMap
 	let munArray = [];
 	for(let iCont in jsonEstadoGeral.MUNICIPIOS){
-		if(iCont < 10)
 		for(let i in jsonEstadoGeral.MICRORREGIOES){
 			if(jsonEstadoGeral.MUNICIPIOS[iCont].ID_MICRO == jsonEstadoGeral.MICRORREGIOES[i].ID){
 				var codM = "" + jsonEstadoGeral.MUNICIPIOS[iCont].ID;
