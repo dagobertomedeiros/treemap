@@ -324,15 +324,11 @@ function gerarArrayTreeMap(tam, numColor){
 		
 		arrayTreeMap.push(mesoArray);
 		mesoArray = [];
-						//dinArray.push('ba');		
-		//dinArray.push(jsonEstadoGeral.MICRORREGIOES[iCont].VALORES[tam]);
-		//dinArray.push(jsonEstadoGeral.MICRORREGIOES[iCont].VALORES[numColor]);
-		//arrayTreeMap.push(dinArray);
+						
 	}
 	//adicionando as microrregioes
 	let microArray = [];
 	for(let iCont in jsonEstadoGeral.MICRORREGIOES){
-		//dinArray.push(jsonEstadoGeral.MICRORREGIOES[iCont].NOME_MICRORREGIAO);
 		for(let i in jsonEstadoGeral.MESORREGIOES){
 			if(jsonEstadoGeral.MICRORREGIOES[iCont].ID_MESO == jsonEstadoGeral.MESORREGIOES[i].ID){
 				microArray.push(jsonEstadoGeral.MICRORREGIOES[iCont].NOME_MICRORREGIAO, 
@@ -343,33 +339,28 @@ function gerarArrayTreeMap(tam, numColor){
 				microArray = [];
 				break;
 			}
-		}		
-		//dinArray.push(jsonEstadoGeral.MICRORREGIOES[iCont].VALORES[tam]);
-		//dinArray.push(jsonEstadoGeral.MICRORREGIOES[iCont].VALORES[numColor]);
-		//arrayTreeMap.push(dinArray);
+		}
 	}
 	//adicionando os municipios ao arrayTreeMap
-	/*let munArray = [];
+	let munArray = [];
 	for(let iCont in jsonEstadoGeral.MUNICIPIOS){
-		//dinArray.push(jsonEstadoGeral.MUNICIPIOS[iCont].NOME_MUNICIPIO);
+		if(iCont < 10)
 		for(let i in jsonEstadoGeral.MICRORREGIOES){
 			if(jsonEstadoGeral.MUNICIPIOS[iCont].ID_MICRO == jsonEstadoGeral.MICRORREGIOES[i].ID){
-				if(arrayTreeMap.indexOf(jsonEstadoGeral.MUNICIPIOS[iCont].ID) === 1 ){//corrigir aqui<<<<<
-					munArray.push(jsonEstadoGeral.MUNICIPIOS[iCont].NOME_MUNICIPIO, 
-						jsonEstadoGeral.MICRORREGIOES[i].NOME_MICRORREGIAO,
-						jsonEstadoGeral.MUNICIPIOS[iCont].VALORES[tam],
-						jsonEstadoGeral.MUNICIPIOS[iCont].VALORES[numColor]);
+				var codM = "" + jsonEstadoGeral.MUNICIPIOS[iCont].ID;
+				var nomeM = jsonEstadoGeral.MUNICIPIOS[iCont].NOME_MUNICIPIO;
+					munArray.push(codM.concat(" - ", nomeM), 
+									jsonEstadoGeral.MICRORREGIOES[i].NOME_MICRORREGIAO,
+									jsonEstadoGeral.MUNICIPIOS[iCont].VALORES[tam],
+									jsonEstadoGeral.MUNICIPIOS[iCont].VALORES[numColor]);
 					arrayTreeMap.push(munArray);
 					munArray = [];
-				}
 				break;
 			}
-			break;
-		}*/		
-		//dinArray.push(jsonEstadoGeral.MUNICIPIOS[iCont].VALORES[tam]);
-		//dinArray.push(jsonEstadoGeral.MUNICIPIOS[iCont].VALORES[numColor]);
-		//arrayTreeMap.push(dinArray);
-	//}
+			
+		}		
+		
+	}
 	
 }	
 gerarArrayTreeMap(tam, numColor);
